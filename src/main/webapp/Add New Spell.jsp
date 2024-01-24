@@ -85,9 +85,12 @@
  
   <div class="container">
     <h2>Add Training Spell</h2>
- 
+     
+     <div>
     <label for="spell">Training Spell:</label>
     <input type="text" id="spell" placeholder="Enter spell" required>
+    <p id="pname" style="color: red;"></p>
+    </div>
  
     <div class="button-container">
       <button type="button" class="save-button" onclick="saveGroup()">Save</button>
@@ -102,13 +105,14 @@
                  
  
                 if (attendgrade.trim() === "") {
-                    document.getElementById("spell").innerHTML = "Training Grade is required";
+                    document.getElementById("pname").innerHTML = "Training Spell is required";
                     return false;
                 } else {
-                    document.getElementById("spell").innerHTML = "";
+                    document.getElementById("pname").innerHTML = "";
+                    return true;
                 }
  
-                return true;
+               
             }
  
             window.saveGroup = function() {
@@ -128,7 +132,9 @@
                         success : function(response) {
                             console.log(response);
                             toastr.success("Training spell saved successfully");
+                            setTimeout(function(){
                             window.location.href = "/TrainingSpell.jsp";
+                            },1000)
                         },
                         error : function(xhr, status, error) {
                             console.error("API request error: " + error);
