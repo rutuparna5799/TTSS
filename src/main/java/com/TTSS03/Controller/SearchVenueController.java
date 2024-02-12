@@ -44,7 +44,7 @@ public class SearchVenueController {
 	}
 	
 	@GetMapping("/fetchVenueById/{vid}")
-	public SearchVenue fetchVenueById(@PathVariable long vid) {
+	public SearchVenue fetchVenueById(@PathVariable String vid) {
 	    // Assume VenueService is a service class that provides methods to fetch venue data
 	    SearchVenue svenue = searchVenueService.getVenueById(vid);
 		return svenue;
@@ -58,7 +58,7 @@ public class SearchVenueController {
 	}
 
 	@PutMapping("/updateVenue/{vid}")
-	public ResponseEntity<String> updatevenue(@PathVariable("vid") long vid, @RequestBody SearchVenue Searchvenue) {
+	public ResponseEntity<String> updatevenue(@PathVariable("vid") String vid, @RequestBody SearchVenue Searchvenue) {
 
 		try {
 			searchVenueService.updatevenue(vid, Searchvenue);
@@ -70,7 +70,7 @@ public class SearchVenueController {
 	}
 
 	@DeleteMapping("/deleteVenue/{vid}")
-	public ResponseEntity<String> deActivateVenue(@PathVariable long vid) {
+	public ResponseEntity<String> deActivateVenue(@PathVariable String vid) {
 
 		try {
 			searchVenueService.deActivatevenue(vid);

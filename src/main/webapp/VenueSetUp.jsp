@@ -33,6 +33,11 @@
  
 <!-- Core theme JS (if needed) -->
 <script src="js/scripts.js"></script>
+
+<!--      ########## Data-table ########## -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 <style type="text/css">
 .btn {
 	font-size: 14px;
@@ -135,13 +140,14 @@
 				row.append("<td >" + training.maplocation + "</td>");
  
 				row
-						.append("<td><button class='btn btn-primary btn-sm edit-button' onclick='editTraining("
-								+ training.vid
-								+ ")'>Edit</button><button class='btn btn-danger btn-sm'   onclick='deleteTraining(this,"
-								+ training.vid + ")'>Delete</button></td>");
+						.append("<td><button class='btn btn-primary btn-sm edit-button' onclick='editTraining(\""
+								+ (training.vid).toString()
+								+ "\")'>Edit</button>&nbsp;<button class='btn btn-danger btn-sm'   onclick='deleteTraining(this,\""
+								+ training.vid + "\")'>Delete</button></td>");
  
 				tableBody.append(row);
 			}
+			var dataTable = $('#trainingTable').DataTable();
 		}
  
 		// Sample functions for edit and delete

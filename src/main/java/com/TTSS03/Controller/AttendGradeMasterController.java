@@ -52,7 +52,7 @@ public class AttendGradeMasterController {
 //	    }
 	  
 	  @PutMapping("/updateTrainingGrade/{gradeId}")
-	    public ResponseEntity<String> updateTrainingSpell(
+	    public ResponseEntity<String> updateTrainingGrade(
 	            @PathVariable("gradeId") long gradeId,
 	            @RequestParam("attendgrade") String attendgrade) {
 	 
@@ -66,7 +66,7 @@ public class AttendGradeMasterController {
 	    }
 		
 		@DeleteMapping("/deleteGrade/{gradeId}")
-		public ResponseEntity<String>deActivateSpell(@PathVariable long gradeId){
+		public ResponseEntity<String>deActivateGrade(@PathVariable long gradeId){
 			
 			try {
 				attendGradeService.deActivateTrainingGrade(gradeId);

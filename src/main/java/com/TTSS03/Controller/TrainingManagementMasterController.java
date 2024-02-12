@@ -57,7 +57,6 @@ public class TrainingManagementMasterController {
 	}
 	
 	@GetMapping("/getbymanagementCodeid/{management_code}")
-	
 	public ResponseEntity<TrainingManagementMaster> getMnagementcodebyId(@PathVariable ("management_code") long management_code){
 		TrainingManagementMaster management = TrainingManagementMasterservice.findById(management_code);
 		return ResponseEntity.ok(management);

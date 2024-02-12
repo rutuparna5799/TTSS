@@ -260,6 +260,19 @@ public class ScheduleTrainings {
 	public void setTendtime(String tendtime) {
 		this.tendtime = tendtime;
 	}
+	@Override
+	public String toString() {
+		return "ScheduleTrainings [sl_no=" + sl_no + ", ref_planner_id=" + ref_planner_id + ", tmonth=" + tmonth
+				+ ", tyear=" + tyear + ", tname=" + tname + ", tdescription=" + tdescription + ", venue_id=" + venue_id
+				+ ", venue_name=" + venue_name + ", training_start_dt=" + training_start_dt + ", training_end_dt="
+				+ training_end_dt + ", apply_start_dt=" + apply_start_dt + ", apply_end_dt=" + apply_end_dt
+				+ ", created_by=" + created_by + ", modified_by=" + modified_by + ", record_status=" + record_status
+				+ ", maplocation=" + maplocation + ", vaddress=" + vaddress + ", tmode=" + tmode + ", tgrade=" + tgrade
+				+ ", state=" + state + ", district=" + district + ", mandal=" + mandal + ", coordinatorname="
+				+ coordinatorname + ", coordinatoremailid=" + coordinatoremailid + ", coordinatormobileno="
+				+ coordinatormobileno + ", tagency=" + tagency + ", tmodule=" + tmodule + ", resourcetype="
+				+ resourcetype + ", tstarttime=" + tstarttime + ", tendtime=" + tendtime + "]";
+	}
 	
 	
 }

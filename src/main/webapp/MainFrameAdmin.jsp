@@ -11,6 +11,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Your JSP Page</title>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <style>
 body {
 	margin: 0;
@@ -59,7 +61,7 @@ body {
 }
 
 #navbar a {
-    width: 103%;
+	width: 103%;
 	display: block;
 	color: #333;
 	text-decoration: none;
@@ -67,7 +69,8 @@ body {
 	margin-bottom: 5px;
 	border-radius: 5px;
 	background-color: #ddd;
-	transition: background-color 0.3s;
+	transition: color 0.3s ease, background-color 0.3s ease;
+	/* Smooth transition for color and background-color */
 }
 
 #navbar a:hover {
@@ -107,8 +110,13 @@ iframe {
 #logoutButton:hover {
 	background-color: #bbb;
 }
+#navbar a.active {
+	color: #dddddd; /* Change font color to black on hover and active */
+	background-color: #666666;
+	/* Change background color on hover and active */
+}
 </style>
- 
+
 </head>
 <body>
 
@@ -124,15 +132,19 @@ iframe {
 		<button id="logoutButton" onclick="logout()">Logout</button>
 
 	</div>
-<div id="navbar">
-  <a href="/dashboard.jsp" target="mainFrame">Dashboard</a>
-  <a href="/AcademicCalender.jsp" target="mainFrame">Academic Calendar</a>
-  <a href="/Schedule1.jsp" target="mainFrame">Schedule Training</a>
-  <a href="/viewTrainings.jsp" target="mainFrame">View Trainings</a>
-  <a href="/MasterSetupScreen.jsp" target="mainFrame">Master Setup</a>
-  <a href="/viewMappingTrainings.jsp" target="mainFrame">Master Mapping</a>
- 
-</div>
+	<div id="navbar">
+		<a href="/dashboard.jsp" target="mainFrame">Dashboard</a> <a
+			href="/AcademicCalender.jsp" target="mainFrame">Academic Calendar</a>
+		<a href="/Schedule1.jsp" target="mainFrame">Schedule Training</a> <a
+			href="/viewTrainings.jsp" target="mainFrame">View Trainings</a> <a
+			href="/MasterSetupScreen.jsp" target="mainFrame">Master Setup</a> <a
+			href="/viewMappingTrainings.jsp" target="mainFrame">Master
+			Mapping</a><a
+			href="/BudgetSetupScreen.jsp" target="mainFrame">Budget Setup</a>
+			
+			
+
+	</div>
 
 
 	<div id="content">
@@ -142,6 +154,15 @@ iframe {
 		</div>
 	</div>
 	<script>
+		$(document).ready(function() {
+			$('#navbar a').click(function() {
+				// Remove active class from all links
+				$('#navbar a').removeClass('active');
+
+				// Add active class to clicked link
+				$(this).addClass('active');
+			});
+		});
 		function logout() {
 			// Perform session logout logic
 	<%-- Assuming session is available in your JSP environment --%>
@@ -166,6 +187,6 @@ iframe {
 			}
 		}
 	</script>
-	 
+
 </body>
 </html>

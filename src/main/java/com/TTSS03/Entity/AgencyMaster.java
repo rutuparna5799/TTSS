@@ -14,6 +14,8 @@ public class AgencyMaster {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int slno;
 	private String agency;
+	private String record_status="Active";
+	
 	public int getSlno() {
 		return slno;
 	}
@@ -25,6 +27,12 @@ public class AgencyMaster {
 	}
 	public void setAgency(String agency) {
 		this.agency = agency;
+	}
+	public String getRecord_status() {
+		return record_status;
+	}
+	public void setRecord_status(String record_status) {
+		this.record_status = record_status;
 	}
 	
 

@@ -8,4 +8,14 @@ public interface AgencyMasterService {
 	
 	List<AgencyMaster>getAllAgency();
 
+	AgencyMaster saveAgency(AgencyMaster agencyMaster);
+
+	AgencyMaster findAgency(int slno);
+
+	AgencyMaster updateAgency(int slno, String agency);
+
+	void deActivateTrainingCategory(int slno);
+
+	
+
 }

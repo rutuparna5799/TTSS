@@ -84,6 +84,15 @@
     flex: 1;
     margin-bottom: 16px;
   }
+  .hidden {
+    display: none;
+  }
+  .readonly {
+    pointer-events: none; /* Disable pointer events */
+    user-select: none; /* Disable selection */
+    opacity: 1; /* Reduce opacity to indicate readonly state */
+    /* Add any other styles you want to apply */
+  }
  
   /* Custom styles for CC Fields */
   #additionalFieldsContainer ,
@@ -179,7 +188,7 @@
 		<div class="row">
       <div class="column">
         <div id="ccFieldsContainer">
-          <h3>CC Fields</h3>
+          <h3></h3>
         </div>
       </div>
     </div>
@@ -187,7 +196,7 @@
     <div class="row">
       <div class="column">
         <div id="accFieldsContainer">
-          <h3>ACC Fields</h3>
+          <h3></h3>
         </div>
       </div>
     </div>
@@ -195,7 +204,7 @@
     <div class="row">
       <div class="column">
         <div id="rpFieldsContainer">
-          <h3>RP Fields</h3>
+          <h3></h3>
         </div>
       </div>
     </div>
@@ -203,7 +212,7 @@
     <div class="row">
       <div class="column">
         <div id="ppFieldsContainer">
-          <h3>PP Fields</h3>
+          <h3></h3>
         </div>
       </div>
     </div>
@@ -211,7 +220,7 @@
     <div class="row">
       <div class="column">
         <div id="osFieldsContainer">
-          <h3>OS Fields</h3>
+          <h3></h3>
         </div>
       </div>
     </div>
@@ -229,6 +238,8 @@
         addData();
       });
  
+      
+      var fieldPrefixes = [];
       function addData() {
         var venueId = getUrlParameter('slno');
  
@@ -245,47 +256,64 @@
                     venuename: existingData[0].venuename
                 };
  					//
-                var fieldPrefixes = ['cc', 'acc', 'rp', 'pp', 'os'];
+                
  
-                fieldPrefixes.forEach(function (prefix) {
-                    $('#' + prefix + 'FieldsContainer input').each(function () {
-                        var inputId = $(this).attr('id');
-                        var inputValue = $(this).val();
-                        console.log(inputValue);
-                        if (existingData[0][inputId]) {
-                            var existingArray = existingData[0][inputId].split(',');
-                            console.log(existingArray);
- 
-                            existingArray.forEach(function(existingValue, index) {
-                            	//console.log(existingValue,index)
-                                if (existingValue.trim() !== inputValue.trim()) {
-                                	//console.log("HI",index,existingArray[index],inputValue.trim());
-                                    existingArray[index] = inputValue.trim();
+                fieldPrefixes.forEach(function(prefix) {
    
-                                }
-                            	
-                            });
-                           // console.log(existingArray);
-                            //inputValue = existingArray.join(',');
-                           // console.log(inputValue);
-                        }
- 
-                        // Use the inputId as the key for the formData object
-                        // If the key already exists, concatenate the values with a comma
-                            if (formData[inputId]) {
-                                formData[inputId] += ',' + inputValue.trim();
-                            } else {
-                                // If the field is not present in formData, set the inputValue directly
+                    $('#' + prefix + 'FieldsContainer input').each(function() {
+                        var inputId = $(this).attr('id');
+                        var inputElements = document.querySelectorAll('input[id="' + inputId + '"]');
+
+                        // Create an empty array to store the values
+                        var valuesArray = [];
+
+                        // Iterate over the selected input elements and extract their values
+                        inputElements.forEach(function(inputElement) {
+                            valuesArray.push(inputElement.value);
+                        });
+                        //console.log(inputId,valuesArray);
+                        if (formData[inputId]) {
+                            // Skip if the field is already present in formData
+                            console.log(formData[inputId]);
+                            return; // Use return instead of continue
+                        } else {
+      
+                            if (existingData[0][inputId]) {
+                            	//console.log(existingData[0][inputId],valuesArray);
+                                var existingArray = existingData[0][inputId].split(',');
+                                //console.log(existingArray);
+
+                                existingArray.forEach(function(existingValue, index) {
+                                    existingArray[index] = valuesArray[index];
+                                });
+
+                                var inputValue = existingArray.toString();
                                 formData[inputId] = inputValue.trim();
                             }
+                            else{
+                            	formData[inputId] = $('#' + inputId).val() ? $('#' + inputId).val().trim() : '';
+
+                            }
+                        }
                     });
                 });
+                
+                // Iterate over all key-value pairs in existingRecord[0]
+                Object.entries(existingData[0]).forEach(([inputId, value]) => {
+                    // Check if the inputId is already in formData
+                    if(formData[inputId] === undefined) {
+                        // If not, set its value to the corresponding value from existingRecord
+                        formData[inputId] = value ? value.trim() : '';
+                    }
+                });
+
+
  
                 // Convert formData to JSON string
                 var formDataJson = JSON.stringify(formData);
-                console.log(formData);
- 
-               // Now you have the formDataJson, you can proceed with the AJAX call to update the data
+                console.log(formDataJson);
+                
+             // Now you have the formDataJson, you can proceed with the AJAX call to update the data
                 $.ajax({
                     type: 'PUT',
                     url: '/api/updateMapping/' + venueId,
@@ -301,7 +329,7 @@
                         alert('Error updating data.');
                     }
                 });
-            },
+			},
             error: function (xhr, status, error) {
                 console.error('Error fetching venue data:', xhr.responseText);
                 alert('Error fetching venue data. Please check the console for details.');
@@ -330,17 +358,21 @@
                 
                 var dynamicFieldsContainer = $('#dynamicFieldsContainer');
                 
-                //dynamicFieldsContainer.append('<label for="' + key + '">' + key + '</label>');
-				createFieldsForGroup(firstRecord, 'slno', 'additionalFieldsContainer');
-                createFieldsForGroup(firstRecord, 'trainingid', 'additionalFieldsContainer');
-                createFieldsForGroup(firstRecord, 'trainingname', 'additionalFieldsContainer');
-                createFieldsForGroup(firstRecord, 'venueid', 'additionalFieldsContainer');
-                createFieldsForGroup(firstRecord, 'venuename', 'additionalFieldsContainer');
-                createFieldsForGroup(firstRecord, 'cc', 'ccFieldsContainer');
-                createFieldsForGroup(firstRecord, 'acc', 'accFieldsContainer');
-                createFieldsForGroup(firstRecord, 'rp', 'rpFieldsContainer');
-                createFieldsForGroup(firstRecord, 'pp', 'ppFieldsContainer');
-                createFieldsForGroup(firstRecord, 'os', 'osFieldsContainer');
+                var fieldContainers = {
+                	    'additionalFieldsContainer': ['slno', 'trainingid', 'trainingname', 'venueid', 'venuename'],
+                	    'ccFieldsContainer': ['cc'],
+                	    'accFieldsContainer': ['acc'],
+                	    'rpFieldsContainer': ['rp'],
+                	    'ppFieldsContainer': ['pp'],
+                	    'osFieldsContainer': ['os']
+                	};
+                
+                Object.keys(fieldContainers).forEach(function(containerId) {
+                    // Loop through fields in the container and call createFieldsForGroup function
+                    fieldContainers[containerId].forEach(function(fieldName) {
+                        createFieldsForGroup(firstRecord, fieldName, containerId);
+                    });
+                });
               } else {
                 console.error('No data found in the response.');
                 alert('No data found in the response.');
@@ -357,16 +389,34 @@
         }
       }
  
+      function isFlagNo(prefix, record) {
+    	  return record[prefix + "flag"] === "No";
+      }
       function createFieldsForGroup(record, prefix, containerId) {
+    	  if (isFlagNo(prefix, record)) {
+  		    return;
+  		  }else{
+  			fieldPrefixes.push(prefix);
+  		  }
           var dynamicFieldsContainer = $('#' + containerId);
- 
-          $.each(record, function (key, value) {
+		  $.each(record, function (key, value) {
+
+			  var fieldContainer = $('<div class="field-container"></div>');
+        	  if (containerId === 'additionalFieldsContainer') {
+        		  fieldContainer.addClass('readonly');
+        	  }else{
+        		  if(key.includes("flag")){
+                	  fieldContainer.addClass('hidden');
+                  }
+        	  }
+        	  
               if (key.startsWith(prefix)) {
-                  // Create a container for the label and input
-                  var fieldContainer = $('<div class="field-container"></div>');
- 
+            	  
+                 
                   // Add the label
-                  fieldContainer.append('<label for="' + key + '">' + key + '</label>');
+                  var label = $('<label for="' + key + '">' + key + '</label>')
+               
+                  fieldContainer.append(label);
  
                   if (value !== null) {
                       if (typeof value === 'string' && value.includes(',')) {
@@ -375,19 +425,24 @@
                            
                               // Create separate input containers for each value in the array
                               var inputContainer = $('<div class="input-container"></div>');
-                              inputContainer.append('<input type="text" id="' + key + '" value="' + val.trim() + '">');
+                         
+                              var input= $('<input type="text" id="' + key + '" value="' + val.trim() + '">');
+          					  inputContainer.append(input);
                               fieldContainer.append(inputContainer);
                           });
                       } else {
                           // Create a single input container
                           var inputContainer = $('<div class="input-container"></div>');
-                          inputContainer.append('<input type="text" id="' + key + '" value="' + value + '">');
+                       
+                          var input=$('<input type="text" id="' + key + '" value="' + value + '">');
+                          inputContainer.append(input);
                           fieldContainer.append(inputContainer);
                       }
                   } else {
                       // Create an empty input container
                       var inputContainer = $('<div class="input-container"></div>');
-                      inputContainer.append('<input type="text" id="' + key + '" value="">');
+                      var input=$('<input type="text" id="' + key + '" value="">')
+                      inputContainer.append(input);
                       fieldContainer.append(inputContainer);
                   }
  

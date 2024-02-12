@@ -35,9 +35,11 @@
 <script src="js/scripts.js"></script>
 
 <!--      ########## Data-table ########## -->
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<script
+	src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 <style type="text/css">
 .btn {
 	font-size: 14px;
@@ -51,8 +53,8 @@
 </head>
 <body>
 
-	<a href="/AddNewSession.jsp" class="btn btn-success mt-2">Add
-		New Session +</a>
+	<a href="/AddNewSession.jsp" class="btn btn-success mt-2">Add New
+		Session +</a>
 
 	<div class="card mt-2" style="width: 100%;">
 		<div class="card-body">
@@ -85,7 +87,7 @@
 
 	<script>
 		// Declare the editTraining function in the global scope
-	 
+
 		// Execute the function on page load
 		fetchDataAndDisplay();
 
@@ -115,18 +117,20 @@
 				var training = trainings[i];
 				var row = $("<tr></tr>");
 				row.append("<td class='serial-column'>" + (i + 1) + "</td>");
-				row.append('<td style="display: none">' + training.id + '</td>');
+				row
+						.append('<td style="display: none">' + training.id
+								+ '</td>');
 				row.append("<td>" + training.sessionCode + "</td>");
 				row.append("<td>" + training.sessionName + "</td>");
 				row.append("<td>" + training.fromDate + "</td>");
 				row.append("<td>" + training.toDate + "</td>");
 				row.append("<td>" + training.status + "</td>");
 				row.append("<td>" + training.recordstatus + "</td>");
-				row.append("<td><button class='btn btn-primary btn-sm edit-button' onclick='editTraining("
+				row
+						.append("<td><button class='btn btn-primary btn-sm edit-button' onclick='editTraining("
 								+ training.id
 								+ ")'>Edit</button><button class='btn btn-danger btn-sm'   onclick='deleteTraining(this,"
-								+ training.id
-								+ ")'>Delete</button></td>");
+								+ training.id + ")'>Delete</button></td>");
 
 				tableBody.append(row);
 			}
@@ -134,15 +138,16 @@
 		}
 
 		// Sample functions for edit and delete
-		function deleteTraining(button,id) {
+		function deleteTraining(button, id) {
 			// Make an AJAX request to the delete endpoint
 			var row = $(button).closest('tr');
 			$.ajax({
 				type : "Delete",
 				url : "/api/session/deleteSession/" + id,
 				success : function(response) {
+
 					var table = $('#trainingTable').DataTable();
-		            table.row(row).remove().draw(false);
+					table.row(row).remove().draw(false);
 					toastr.success("Training deleted successfully");
 					// Reload or update the data after deletion
 					fetchDataAndDisplay();
@@ -152,14 +157,14 @@
 				}
 			});
 		}
-		
+
 		// Sample function for edit
 		function editTraining(id) {
-		    // Assuming you have an EditTraining.jsp page to handle editing
-		    var editUrl = "/EditTrainingSession.jsp?id="+id;
- 
-		    // Redirect to the EditTraining.jsp page with the query string parameters
-		    window.location.href = editUrl;
+			// Assuming you have an EditTraining.jsp page to handle editing
+			var editUrl = "/EditTrainingSession.jsp?id=" + id;
+
+			// Redirect to the EditTraining.jsp page with the query string parameters
+			window.location.href = editUrl;
 		}
 	</script>
 

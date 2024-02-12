@@ -118,7 +118,7 @@
 				
 				row.append("<td><button class='btn btn-primary btn-sm edit-button' onclick='editTraining("
 								+ training.uid
-								+ ")'>Edit</button><button class='btn btn-danger btn-sm'   onclick='deleteTraining(this,"
+								+ ")'>Edit</button>&nbsp;<button class='btn btn-danger btn-sm'   onclick='deleteTraining(this,"
 								+ training.uid
 								+ ")'>Delete</button></td>");
  

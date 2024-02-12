@@ -288,7 +288,10 @@ button[type="button"] {
 				data : jsonData,
 				success : function(response) {
 					toastr.success("Training updated successfully");
-					window.location.href = "/AcademicCalender.jsp";
+					setTimeout(() => {
+						window.location.href = "/AcademicCalender.jsp";
+					}, 700);
+					
 
 				},
 				error : function(xhr, status, error) {

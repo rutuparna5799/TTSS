@@ -35,6 +35,15 @@ body {
         margin-left: 5px; /* Adjust the spacing between the label and the star */
     }
 
+.dropdown-container {
+        width: 180px;
+    }
+    select {
+        max-width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
 </style>
 </head>
 
@@ -244,7 +253,7 @@ body {
 										<div class="form-group" id="trainingName">
     <label for="resource">Training Name:<span class="required-field">*</span></label>
     <div>
-        <div class="dropdown-container">
+       <div class="dropdown-container" style="width: 150px;">
             <select id="trainingDropdown" class="form-control1" required onclick="showotherfield()">
                 <!-- Add your dropdown options here -->
                 <option value="NA">--Select--</option>
